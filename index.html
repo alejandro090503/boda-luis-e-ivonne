@@ -769,6 +769,13 @@ body{font-weight:500;color:var(--text)}
 @media(prefers-reduced-motion:reduce){
   .hero-drift,.hero-glow,.ink-bg i,.lev .card,.fam-block,.dc-fig img,.dc-sw,.dc-sw span,.dc-sw span::after,.env-body.landed,.env-tap-hint.show,.rsvp-go{animation:none!important}
 }
+
+/* hero: textos arriba para que se vean los rostros */
+#hero{align-items:flex-start!important}
+.hero-content{top:0!important;bottom:auto!important;padding:max(64px,env(safe-area-inset-top)) 28px 0!important}
+.hero-bride,.hero-groom{font-size:clamp(48px,14vw,68px)!important}
+.hero-amp{font-size:44px!important}
+.hero-veil{background:linear-gradient(to bottom,rgba(10,18,34,.84) 0%,rgba(10,18,34,.55) 30%,rgba(10,18,34,.08) 52%,rgba(10,18,34,0) 75%,rgba(10,18,34,.3) 100%)!important}
 </style>
 </head>
 <body>
