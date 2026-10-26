@@ -875,6 +875,27 @@ body{font-synthesis-weight:none}
 button,input,select,textarea{font-family:'Marcellus',serif}
 .hero-amp,.amp-gold,.fam-amp,.np-mono b,.env-initial{font-style:italic;font-weight:500}
 .hero-amp{font-size:46px!important}.amp-gold{font-size:38px}.fam-amp{font-size:26px}
+
+/* colores a evitar: 3 azules en una bolita */
+.dc-orb3{animation:orb3 9s ease-in-out infinite,swGlow 3s ease-in-out infinite!important;background:#92A8D1}
+.dc-orb3::before{display:none}
+@keyframes orb3{0%,25%{background-color:#92A8D1}33%,58%{background-color:#4A7BB7}66%,91%{background-color:#A9CDEB}100%{background-color:#92A8D1}}
+.dc-lbl3{width:160px}
+.dc-lbl3 i{opacity:0;animation:lbl3 9s ease-in-out infinite!important}
+.dc-lbl3 i:nth-child(2){animation-delay:-6s!important}
+.dc-lbl3 i:nth-child(3){animation-delay:-3s!important}
+@keyframes lbl3{0%,25%{opacity:1}33%,91%{opacity:0}100%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.dc-orb3{animation:none!important}.dc-lbl3 i{animation:none!important}.dc-lbl3 i:first-child{opacity:1}}
+/* regalos: dos opciones */
+.gift-two{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;font-weight:500;color:var(--text);margin-top:14px}
+.gift-op{display:block;font-family:var(--f-sans);font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-txt);margin-top:26px}
+.lv-card{max-width:320px;margin:30px auto 0;padding:24px 22px;border-radius:18px;background:rgba(255,255,255,.88);border:1px solid rgba(212,175,55,.6);box-shadow:0 14px 34px rgba(27,47,82,.14);display:flex;flex-direction:column;align-items:center;gap:6px;animation:levitate 6.5s ease-in-out infinite;animation-delay:-2.2s}
+.lv-card .gift-op{margin-top:0}
+.lv-logo{width:170px;height:auto;margin:10px 0 6px}
+.lv-lbl{font-family:var(--f-sans);font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#2F5A93}
+.lv-num{font-family:var(--f-display);font-weight:600;font-size:34px;color:var(--navy);letter-spacing:.06em}
+.lv-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 26px;margin-top:8px;border-radius:999px;background:linear-gradient(135deg,#6F98CC,#2F5A93);color:#fff;text-decoration:none;font-family:var(--f-sans);font-size:15px;letter-spacing:.12em;border:1px solid rgba(212,175,55,.8)}
+@media(prefers-reduced-motion:reduce){.lv-card{animation:none}}
 </style>
 </head>
 <body>
@@ -1127,11 +1148,11 @@ button,input,select,textarea{font-family:'Marcellus',serif}
     <p class="dc-sub-lbl">Colores sugeridos</p>
     <p class="dc-pend">Por confirmar</p>
     <p class="dc-sub-lbl">Colores a evitar</p>
-    <div class="dc-orb-wrap" aria-label="Blanco y marfil">
-      <span class="dc-orb"></span>
-      <span class="dc-orb-lbl"><i>Blanco</i><i>Marfil</i></span>
+    <div class="dc-orb-wrap" aria-label="Azul serenity, azul acero y azul celeste">
+      <span class="dc-orb dc-orb3"></span>
+      <span class="dc-orb-lbl dc-lbl3"><i>Azul serenity</i><i>Azul acero</i><i>Azul celeste</i></span>
     </div>
-    <p class="dc-note-w">Reservamos el blanco para la novia. ¡Gracias por respetarlo!</p>
+    <p class="dc-note-w">Te pedimos evitar estos tonos de azul. ¡Gracias por tu comprensión!</p>
   </section>
 
   <!-- HOSPEDAJE (lista: boda-roxana-y-omar · selector y mapa: valeyandres.love) -->
@@ -1185,9 +1206,11 @@ button,input,select,textarea{font-family:'Marcellus',serif}
     <div class="ink-bg oval" aria-hidden="true"><i style="background-image:url(ink/ink-oval.webp)"></i></div>
     <div class="env-rain" id="envRain" aria-hidden="true"></div>
     <div class="env-stage">
-      <span class="eyebrow">Mesa de Regalos</span>
-      <h2 class="heading-sm">Lluvia de Sobres</h2>
+      <span class="eyebrow">Con cariño</span>
+      <h2 class="heading-sm">Mesa de Regalos</h2>
+      <p class="gift-two">Tendremos dos opciones</p>
       <div class="orn" style="margin-top:14px;margin-bottom:0"><div class="orn-line"></div><div class="orn-diamond-sm"></div><div class="orn-diamond"></div><div class="orn-diamond-sm"></div><div class="orn-line"></div></div>
+      <span class="gift-op">Opción 1 · Lluvia de sobres</span>
       <button class="env-interactive" id="envGift" type="button" aria-label="Sobre — toca para abrir" aria-expanded="false">
         <div class="env-body" id="envGiftBody">
           <svg class="env-svg" viewBox="0 0 260 200" preserveAspectRatio="none" aria-hidden="true">
@@ -1216,6 +1239,13 @@ button,input,select,textarea{font-family:'Marcellus',serif}
         </div>
       </button>
       <button class="env-tap-hint" id="envGiftHint" type="button">Toca para abrir</button>
+      <div class="lv-card sheen">
+        <span class="gift-op">Opción 2 · Mesa de regalos</span>
+        <img class="lv-logo" src="liverpool-logo.png" alt="Liverpool">
+        <span class="lv-lbl">No. de evento</span>
+        <span class="lv-num">60036247</span>
+        <a class="lv-btn" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60036247" target="_blank" rel="noopener">Ver mesa de regalos</a>
+      </div>
     </div>
   </section>
 
@@ -1238,6 +1268,13 @@ button,input,select,textarea{font-family:'Marcellus',serif}
         <div class="wheel-card"><img src="g11.jpeg" alt="Ivonne y Luis" loading="eager"></div>
         <div class="wheel-card"><img src="g12.jpeg" alt="Ivonne y Luis" loading="eager"></div>
         <div class="wheel-card"><img src="g13.jpeg" alt="Ivonne y Luis" loading="eager"></div>
+        <div class="wheel-card"><img src="g14.jpeg" alt="Ivonne y Luis" loading="eager"></div>
+        <div class="wheel-card"><img src="g15.jpeg" alt="Ivonne y Luis" loading="eager"></div>
+        <div class="wheel-card"><img src="g16.jpeg" alt="Ivonne y Luis" loading="eager"></div>
+        <div class="wheel-card"><img src="g17.jpeg" alt="Ivonne y Luis" loading="eager"></div>
+        <div class="wheel-card"><img src="g18.jpeg" alt="Ivonne y Luis" loading="eager"></div>
+        <div class="wheel-card"><img src="g19.jpeg" alt="Ivonne y Luis" loading="eager"></div>
+        <div class="wheel-card"><img src="g20.jpeg" alt="Ivonne y Luis" loading="eager"></div>
       </div>
     </div>
     <p class="gal-hint rv">Arrastra para girar · toca para ampliar</p>
@@ -1342,7 +1379,7 @@ button,input,select,textarea{font-family:'Marcellus',serif}
     <svg class="vinyl-icon-pause" viewBox="0 0 24 24" fill="#4A7BB7" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
   </div>
 </button>
-<audio id="bgAudio" loop preload="none"><source src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/audio/boda-luis-e-ivonne/cancion.mp3" type="audio/mpeg"></audio>
+<audio id="bgAudio" loop preload="none"><source src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/audio/boda-luis-e-ivonne/cancion-pacto.mp3" type="audio/mpeg"></audio>
 <div id="env-flash"></div>
 
 <div id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada" aria-hidden="true">
