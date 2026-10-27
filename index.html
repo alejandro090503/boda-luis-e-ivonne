@@ -847,7 +847,7 @@ body{font-weight:500;color:var(--text)}
 @media(prefers-reduced-motion:reduce){.hosp-photo,.hm-hotel::after,.hm-route{animation:none!important}}
 
 /* sobre nuevo a pantalla completa */
-#envelope-screen{background:#899298!important}
+#envelope-screen{background:#F4F5F7!important}
 #envImage{object-fit:cover!important}
 /* hero: la foto cubre aunque suba con el scroll */
 .hero-drift{inset:-14% -4%!important}
@@ -877,14 +877,15 @@ button,input,select,textarea{font-family:'Marcellus',serif}
 .hero-amp{font-size:46px!important}.amp-gold{font-size:38px}.fam-amp{font-size:26px}
 
 /* colores a evitar: 3 azules en una bolita */
-.dc-orb3{animation:orb3 9s ease-in-out infinite,swGlow 3s ease-in-out infinite!important;background:#92A8D1}
+.dc-orb3{animation:orb3 12s ease-in-out infinite,swGlow 3s ease-in-out infinite!important;background:#92A8D1}
 .dc-orb3::before{display:none}
-@keyframes orb3{0%,25%{background-color:#92A8D1}33%,58%{background-color:#4A7BB7}66%,91%{background-color:#A9CDEB}100%{background-color:#92A8D1}}
+@keyframes orb3{0%,19%{background-color:#1B2A5C}25%,44%{background-color:#7FB2E5}50%,69%{background-color:#A9DDF0}75%,94%{background-color:#FFFFFF}100%{background-color:#1B2A5C}}
 .dc-lbl3{width:160px}
-.dc-lbl3 i{opacity:0;animation:lbl3 9s ease-in-out infinite!important}
-.dc-lbl3 i:nth-child(2){animation-delay:-6s!important}
-.dc-lbl3 i:nth-child(3){animation-delay:-3s!important}
-@keyframes lbl3{0%,25%{opacity:1}33%,91%{opacity:0}100%{opacity:1}}
+.dc-lbl3 i{opacity:0;animation:lbl3 12s ease-in-out infinite!important}
+.dc-lbl3 i:nth-child(2){animation-delay:-9s!important}
+.dc-lbl3 i:nth-child(3){animation-delay:-6s!important}
+.dc-lbl3 i:nth-child(4){animation-delay:-3s!important}
+@keyframes lbl3{0%,19%{opacity:1}25%,94%{opacity:0}100%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.dc-orb3{animation:none!important}.dc-lbl3 i{animation:none!important}.dc-lbl3 i:first-child{opacity:1}}
 /* regalos: dos opciones */
 .gift-two{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;font-weight:500;color:var(--text);margin-top:14px}
@@ -896,6 +897,10 @@ button,input,select,textarea{font-family:'Marcellus',serif}
 .lv-num{font-family:var(--f-display);font-weight:600;font-size:34px;color:var(--navy);letter-spacing:.06em}
 .lv-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 26px;margin-top:8px;border-radius:999px;background:linear-gradient(135deg,#6F98CC,#2F5A93);color:#fff;text-decoration:none;font-family:var(--f-sans);font-size:15px;letter-spacing:.12em;border:1px solid rgba(212,175,55,.8)}
 @media(prefers-reduced-motion:reduce){.lv-card{animation:none}}
+
+/* mariposas con brillo */
+.bfly svg{filter:drop-shadow(0 0 6px rgba(246,227,161,.9)) drop-shadow(0 0 2px #fff)}
+.dc-lbl3{width:170px}
 </style>
 </head>
 <body>
@@ -1148,11 +1153,11 @@ button,input,select,textarea{font-family:'Marcellus',serif}
     <p class="dc-sub-lbl">Colores sugeridos</p>
     <p class="dc-pend">Por confirmar</p>
     <p class="dc-sub-lbl">Colores a evitar</p>
-    <div class="dc-orb-wrap" aria-label="Azul serenity, azul acero y azul celeste">
+    <div class="dc-orb-wrap" aria-label="Azul marino, azul cielo, azul celeste y blanco">
       <span class="dc-orb dc-orb3"></span>
-      <span class="dc-orb-lbl dc-lbl3"><i>Azul serenity</i><i>Azul acero</i><i>Azul celeste</i></span>
+      <span class="dc-orb-lbl dc-lbl3"><i>Azul marino</i><i>Azul cielo</i><i>Azul celeste</i><i>Blanco</i></span>
     </div>
-    <p class="dc-note-w">Te pedimos evitar estos tonos de azul. ¡Gracias por tu comprensión!</p>
+    <p class="dc-note-w">Te pedimos evitar estos tonos. ¡Gracias por tu comprensión!</p>
   </section>
 
   <!-- HOSPEDAJE (lista: boda-roxana-y-omar · selector y mapa: valeyandres.love) -->
@@ -1422,6 +1427,14 @@ function initEnvelope(){
     envVideo.load();
     var playProm=envVideo.play();
     gsap.fromTo(envVideo,{opacity:0},{opacity:1,duration:.45,delay:.05});
+    (function(){var cols=['#FFFFFF','#F6E3A1','#D4AF37','#A9CDEB','#1B2F52'];var k=0;
+      var iv=setInterval(function(){if(finished||k++>70){clearInterval(iv);return;}
+        for(var j=0;j<2;j++){var p=document.createElement('div'),c=cols[Math.floor(Math.random()*cols.length)],s=8+Math.random()*16;
+        p.innerHTML='<svg viewBox="0 0 20 20"><path d="M10 0 C11 7 13 9 20 10 C13 11 11 13 10 20 C9 13 7 11 0 10 C7 9 9 7 10 0Z" fill="'+c+'"/></svg>';
+        p.style.cssText='position:absolute;z-index:5;pointer-events:none;left:'+(20+Math.random()*60)+'%;top:'+(25+Math.random()*40)+'%;width:'+s+'px;height:'+s+'px;filter:drop-shadow(0 0 6px '+c+')';
+        envScreen.appendChild(p);var a=Math.random()*6.28,d=60+Math.random()*180;
+        gsap.fromTo(p,{opacity:0,scale:.2,rotation:0},{opacity:1,scale:1,rotation:180,x:Math.cos(a)*d,y:Math.sin(a)*d-40,duration:1.6+Math.random(),ease:'power2.out',onComplete:function(){gsap.to(this.targets()[0],{opacity:0,duration:.6,onComplete:function(){this.targets()[0].remove();}});}});}
+      },90);})();
     if(playProm!==undefined){playProm.catch(function(){finish();});}
     envVideo.addEventListener('ended',finish,{once:true});
     setTimeout(finish,12000);
@@ -1624,7 +1637,7 @@ function initScrollReveals(){
   rvEls.forEach(function(el,i){
     var isHeroName=el.classList.contains('hero-bride')||el.classList.contains('hero-groom')||el.classList.contains('hero-amp');
     gsap.to(el,{
-      opacity:1,y:0,duration:isHeroName?2.2:.7,ease:isHeroName?'power1.out':'power2.out',
+      opacity:1,y:0,duration:isHeroName?2.8:1.4,ease:isHeroName?'power1.out':'power2.out',
       scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}
     });
   });
@@ -1723,7 +1736,7 @@ function elyEnter(targets,from,to,opts){
   gsap.utils.toArray(targets).forEach(function(el,i){
     ScrollTrigger.create({trigger:opts.trigger||el,start:opts.start||'top 92%',once:true,onEnter:function(){
       if(RM){gsap.fromTo(el,{opacity:0},{opacity:1,duration:.4});return;}
-      gsap.fromTo(el,from,Object.assign({duration:.9,ease:'power3.out',delay:(opts.stagger||0)*i,clearProps:opts.keep?'':'transform'},to));
+      gsap.fromTo(el,from,Object.assign({ease:'power2.out',delay:(opts.stagger||0)*1.6*i,clearProps:opts.keep?'':'transform'},to,{duration:Math.max(1.4,(to.duration||.9)*1.7)}));
     }});
   });
 }
@@ -1808,7 +1821,7 @@ function launchSparks(){
   var star='<svg viewBox="0 0 20 20"><path d="M10 0 C11 7 13 9 20 10 C13 11 11 13 10 20 C9 13 7 11 0 10 C7 9 9 7 10 0Z" fill="CC"/></svg>';
   var live=0;
   function spark(){
-    if(live>9||document.hidden)return;live++;
+    if(live>18||document.hidden)return;live++;
     var p=document.createElement('div');p.className='spark';
     var c=cols[Math.floor(Math.random()*cols.length)],s=6+Math.random()*10;
     p.innerHTML=star.replace('CC',c);
@@ -1819,10 +1832,10 @@ function launchSparks(){
       .to(p,{y:-30-Math.random()*40,duration:2.4,ease:'none'},'<')
       .to(p,{opacity:0,scale:.3,duration:1.2,ease:'sine.in'});
   }
-  setInterval(spark,700);
+  setInterval(spark,380);
   var wing=['#A9CDEB','#92A8D1','#4A7BB7','#E8EEF6'];
   function bfly(){
-    if(document.hidden||box.querySelectorAll('.bfly').length>=3)return;
+    if(document.hidden||box.querySelectorAll('.bfly').length>=4)return;
     var c=wing[Math.floor(Math.random()*wing.length)];
     var b=document.createElement('div');b.className='bfly';
     b.innerHTML='<svg viewBox="0 0 40 32"><defs><linearGradient id="bw'+Date.now()+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="'+c+'"/></linearGradient></defs>'+
@@ -1835,8 +1848,14 @@ function launchSparks(){
     gsap.set(b,{x:sx,y:y0,rotation:ltr?12:-12,scale:.7+Math.random()*.5});
     gsap.to(b,{x:ex,duration:13+Math.random()*6,ease:'none',onComplete:function(){b.remove();}});
     gsap.to(b,{y:y0-60-Math.random()*90,duration:2.6,ease:'sine.inOut',yoyo:true,repeat:7});
+    var tr=setInterval(function(){if(!b.isConnected){clearInterval(tr);return;}
+      var bx=gsap.getProperty(b,'x')+17,by=gsap.getProperty(b,'y')+14,q=document.createElement('div'),cc=Math.random()>.5?'#F6E3A1':'#FFFFFF',sz=4+Math.random()*7;
+      q.className='spark';q.innerHTML=star.replace('CC',cc);
+      q.style.cssText='left:0;top:0;width:'+sz+'px;height:'+sz+'px;filter:drop-shadow(0 0 5px '+cc+')';box.appendChild(q);
+      gsap.fromTo(q,{x:bx,y:by,opacity:1,scale:1},{x:bx+(Math.random()*20-10),y:by+18+Math.random()*24,opacity:0,scale:.2,rotation:180,duration:1.3,ease:'sine.out',onComplete:function(){q.remove();}});
+    },140);
   }
-  setTimeout(bfly,1200);setInterval(bfly,6500);
+  setTimeout(bfly,1200);setInterval(bfly,4500);
 }
 
 /* ── MENÚ FLOTANTE ── */
