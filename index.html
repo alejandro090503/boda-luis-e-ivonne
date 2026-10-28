@@ -909,6 +909,24 @@ button,input,select,textarea{font-family:'Marcellus',serif}
 .dc4 .dc-sw{width:auto;display:flex;flex-direction:column;align-items:center;gap:8px}
 .dc4 .dc-sw span{display:block;width:52px!important;height:52px!important;border-radius:50%;box-shadow:0 6px 14px rgba(27,47,82,.18)}
 .dc4 .dc-sw em{font-style:normal;font-family:var(--f-sans);font-size:14px!important;line-height:1.25;color:var(--text);text-align:center}
+
+/* pantalla de idioma */
+#langScreen{position:fixed;inset:0;z-index:9500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center;background:radial-gradient(ellipse at 50% 35%,#FFFFFF 0%,#EEF3FA 55%,#DCE6F3 100%)}
+.lang-mono{font-family:'Playfair Display',serif;font-size:46px;letter-spacing:.12em;color:#1B2F52}
+.lang-mono span{font-family:'Cormorant Garamond',serif;font-style:italic;color:#C9A23A}
+.lang-rule{width:120px;height:1px;background:linear-gradient(90deg,transparent,#D4AF37,transparent)}
+.lang-name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:26px;color:#2F5A93}
+.lang-ask{font-family:'Marcellus',serif;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#3d4a5e;line-height:1.9;margin-top:10px}
+.lang-ask i{font-style:normal;color:#7a8597}
+.lang-opts{display:flex;flex-direction:column;gap:12px;margin-top:10px;width:min(260px,80vw)}
+.lang-btn{min-height:52px;border-radius:999px;border:1px solid rgba(212,175,55,.8);background:linear-gradient(135deg,#6F98CC,#2F5A93);color:#fff;font-family:'Marcellus',serif;font-size:16px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 24px rgba(47,90,147,.25)}
+.lang-btn+.lang-btn{background:#fff;color:#2F5A93}
+.lang-switch{position:fixed;top:14px;right:14px;z-index:850;width:44px;height:44px;border-radius:50%;border:1px solid rgba(212,175,55,.8);background:rgba(255,255,255,.9);color:#1B2F52;font-family:'Marcellus',serif;font-size:14px;letter-spacing:.06em;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .5s;box-shadow:0 6px 16px rgba(27,47,82,.18)}
+.lang-switch.show{opacity:1;pointer-events:auto}
+/* apertura premium */
+.env-bloom{position:absolute;left:50%;top:46%;width:90vmin;height:90vmin;margin:-45vmin 0 0 -45vmin;border-radius:50%;z-index:5;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle,rgba(255,250,232,.95) 0%,rgba(246,227,161,.45) 22%,rgba(169,205,235,.18) 45%,rgba(255,255,255,0) 68%)}
+.env-sweep{position:absolute;top:-10%;bottom:-10%;width:45%;left:28%;z-index:6;pointer-events:none;mix-blend-mode:screen;transform:skewX(-18deg);background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,248,225,.55),rgba(255,255,255,0))}
+.env-dust{position:absolute;z-index:7;border-radius:50%;pointer-events:none;mix-blend-mode:screen}
 </style>
 </head>
 <body>
@@ -916,6 +934,17 @@ button,input,select,textarea{font-family:'Marcellus',serif}
 <div id="loader"></div>
 <div id="petals"></div>
 
+<div id="langScreen" role="dialog" aria-label="Elige el idioma / Choose your language">
+  <div class="lang-mono">L <span>&amp;</span> I</div>
+  <div class="lang-rule"></div>
+  <div class="lang-name">Ivonne &amp; Luis</div>
+  <div class="lang-ask">Elige tu idioma<br><i>Choose your language</i></div>
+  <div class="lang-opts">
+    <button class="lang-btn" type="button" data-lang="es">Español</button>
+    <button class="lang-btn" type="button" data-lang="en">English</button>
+  </div>
+</div>
+<button class="lang-switch" id="langSwitch" type="button" aria-label="Cambiar idioma / Switch language">EN</button>
 <div id="envelope-screen">
   <img id="envImage" src="sobre.jpg" alt="Invitación Ivonne y Luis" style="opacity:0">
   <video id="envVideo" src="apertura.mp4" muted playsinline preload="auto"></video>
@@ -1391,14 +1420,26 @@ function initEnvelope(){
     envVideo.load();
     var playProm=envVideo.play();
     gsap.fromTo(envVideo,{opacity:0},{opacity:1,duration:.45,delay:.05});
-    (function(){var cols=['#FFFFFF','#F6E3A1','#D4AF37','#A9CDEB','#1B2F52'];var k=0;
-      var iv=setInterval(function(){if(finished||k++>70){clearInterval(iv);return;}
-        for(var j=0;j<2;j++){var p=document.createElement('div'),c=cols[Math.floor(Math.random()*cols.length)],s=8+Math.random()*16;
-        p.innerHTML='<svg viewBox="0 0 20 20"><path d="M10 0 C11 7 13 9 20 10 C13 11 11 13 10 20 C9 13 7 11 0 10 C7 9 9 7 10 0Z" fill="'+c+'"/></svg>';
-        p.style.cssText='position:absolute;z-index:5;pointer-events:none;left:'+(20+Math.random()*60)+'%;top:'+(25+Math.random()*40)+'%;width:'+s+'px;height:'+s+'px;filter:drop-shadow(0 0 6px '+c+')';
-        envScreen.appendChild(p);var a=Math.random()*6.28,d=60+Math.random()*180;
-        gsap.fromTo(p,{opacity:0,scale:.2,rotation:0},{opacity:1,scale:1,rotation:180,x:Math.cos(a)*d,y:Math.sin(a)*d-40,duration:1.6+Math.random(),ease:'power2.out',onComplete:function(){gsap.to(this.targets()[0],{opacity:0,duration:.6,onComplete:function(){this.targets()[0].remove();}});}});}
-      },90);})();
+    (function(){
+      var g=document.createElement('div');g.className='env-bloom';envScreen.appendChild(g);
+      var sw=document.createElement('div');sw.className='env-sweep';envScreen.appendChild(sw);
+      gsap.fromTo(g,{opacity:0,scale:.4},{opacity:1,scale:1.6,duration:2.4,ease:'power2.out'});
+      gsap.to(g,{opacity:0,duration:1.6,delay:2.6,ease:'sine.inOut'});
+      gsap.fromTo(sw,{xPercent:-120},{xPercent:120,duration:2.2,delay:.6,ease:'power1.inOut'});
+      for(var i=0;i<46;i++){(function(i){
+        var d=document.createElement('div'),s=2+Math.random()*Math.random()*9,warm=Math.random()<.7;
+        d.className='env-dust';d.style.width=d.style.height=s+'px';
+        d.style.background=warm?'radial-gradient(circle,#FFF8E1 0%,#F3D98B 45%,rgba(212,175,55,0) 72%)':'radial-gradient(circle,#fff 0%,#DCE9F7 45%,rgba(169,205,235,0) 72%)';
+        if(s>6)d.style.filter='blur('+(s/5).toFixed(1)+'px)';
+        envScreen.appendChild(d);
+        var a=Math.random()*6.283,r=40+Math.random()*Math.min(innerWidth,520)*.55;
+        gsap.set(d,{left:'50%',top:'46%',x:0,y:0,opacity:0});
+        gsap.timeline({delay:.3+Math.random()*1.4,onComplete:function(){d.remove();}})
+          .to(d,{opacity:.25+Math.random()*.75,duration:.6,ease:'sine.out'})
+          .to(d,{x:Math.cos(a)*r,y:Math.sin(a)*r-60-Math.random()*120,duration:3+Math.random()*2,ease:'power1.out'},0)
+          .to(d,{opacity:0,duration:1.4,ease:'sine.in'},'-=1.4');
+      })(i);}
+    })();
     if(playProm!==undefined){playProm.catch(function(){finish();});}
     envVideo.addEventListener('ended',finish,{once:true});
     setTimeout(finish,12000);
@@ -1688,7 +1729,11 @@ function explodeGift(box){
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',function(){
-  initEnvelope();
+  var ls=document.getElementById('langScreen'),sw=document.getElementById('langSwitch'),go=false;
+  function pick(l){if(go)return;go=true;window.ELY_I18N.apply(l);
+    gsap.to(ls,{opacity:0,duration:.8,ease:'power2.inOut',onComplete:function(){ls.style.display='none';sw.classList.add('show');initEnvelope();}});}
+  ls.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){pick(b.dataset.lang);});});
+  sw.addEventListener('click',function(e){e.stopPropagation();window.ELY_I18N.apply(window.ELY_I18N.get()==='en'?'es':'en');});
 });
 </script>
 <script>
@@ -2123,6 +2168,31 @@ window.addEventListener('load',initSectionFades);
   ['pointerdown','touchend','click','keydown'].forEach(function(ev){
     document.addEventListener(ev,onGesture,{capture:true,passive:true});
   });
+})();
+</script>
+<script>
+/* ── IDIOMA ES/EN (texto en español en el HTML, inglés en diccionario) ── */
+window.ELY_I18N=(function(){
+  var EN={"Toca para abrir": "Tap to open", "Inicio": "Home", "Familias": "Families", "Ubicación": "Location", "Itinerario": "Schedule", "Vestimenta": "Dress code", "Regalos": "Gifts", "Galería": "Gallery", "Confirmar": "RSVP", "☰ Menú": "☰ Menu", "26 · Diciembre · 2026 · Oaxaca de Juárez": "26 · December · 2026 · Oaxaca de Juárez", "¡Copiado!": "Copied!", "Nos casamos": "We're getting married", "Con la bendición de Dios": "With God's blessing", "Tienen el honor de invitarte a": "Request the honor of your presence at", "su boda religiosa": "their religious wedding", "Sábado, 26 de diciembre de 2026": "Saturday, December 26, 2026", "El amor es paciente, es bondadoso;": "Love is patient, love is kind;", "todo lo cree, todo lo espera, todo lo soporta.": "it always trusts, always hopes, always perseveres.", "1 Corintios 13, 4-7": "1 Corinthians 13:4-7", "Faltan": "Only", "Cuenta Regresiva": "Countdown", "Días": "Days", "Horas": "Hours", "Min": "Min", "Seg": "Sec", "Con la bendición de": "With the blessing of", "Nuestras Familias": "Our Families", "Padres de la Novia": "Parents of the Bride", "En amorosa memoria": "In loving memory", "Que nos acompañan desde el cielo": "Who are with us from heaven", "Padres del Novio": "Parents of the Groom", "Padrinos de Velación": "Sponsors", "Dónde Celebramos": "Where We Celebrate", "Ceremonia Religiosa": "Religious Ceremony", "Templo de la Virgen de Juquila": "Virgin of Juquila Church", "Cómo llegar": "Directions", "Recepción y Comida": "Reception & Lunch", "Guardar en Calendario": "Save to Calendar", "Programa del Día": "Order of the Day", "Templo de la Virgen de Juquila, San Juan Chapultepec": "Virgin of Juquila Church, San Juan Chapultepec", "Calenda": "Calenda (traditional parade)", "Recepción y Cóctel de Bienvenida": "Reception & Welcome Cocktail", "Comida": "Lunch", "De 3:30 a 5:00 p.m.": "From 3:30 to 5:00 p.m.", "Código de Vestimenta": "Dress Code", "Formal": "Formal", "Acompáñanos vestido para la ocasión con tu mejor atuendo formal.": "Please join us in your finest formal attire.", "Caballeros": "Gentlemen", "Damas": "Ladies", "Colores sugeridos": "Suggested colors", "Por confirmar": "To be confirmed", "Colores a evitar": "Colors to avoid", "Azul marino": "Navy blue", "Azul cielo": "Sky blue", "Azul celeste": "Light blue", "Blanco": "White", "Te pedimos evitar estos tonos. ¡Gracias por tu comprensión!": "Kindly avoid these colors. Thank you for understanding!", "Con cariño": "With love", "Mesa de Regalos": "Gift Registry", "Tendremos dos opciones": "There are two options", "Opción 1 · Lluvia de sobres": "Option 1 · Envelope shower", "Tu presencia es nuestro regalo": "Your presence is our gift", "Si deseas tener un detalle con nosotros, el día del evento habrá un buzón para recibir tu sobre con todo nuestro cariño.": "If you wish to give us a gift, there will be a box at the event to receive your envelope with all our love.", "Opción 2 · Mesa de regalos": "Option 2 · Gift registry", "No. de evento": "Event no.", "Ver mesa de regalos": "View gift registry", "Nuestros Momentos": "Our Moments", "Arrastra para girar · toca para ampliar": "Drag to spin · tap to enlarge", "Comparte tus Recuerdos": "Share your Memories", "Álbum de Fotos": "Photo Album", "Ayúdanos a guardar cada momento: sube aquí las fotos que tomes durante el evento.": "Help us keep every moment: upload the photos you take during the event here.", "Subir mis fotos": "Upload my photos", "El álbum de fotos se habilita el día del evento. Regresa aquí y sube todas tus fotos.": "The photo album opens on the day of the event. Come back here and upload all your photos.", "Información Importante": "Important Information", "Notas Cariñosas": "Kind Notes", "Con mucho cariño, hemos planeado esta celebración solo para adultos. Gracias por su comprensión.": "With much love, we have planned an adults-only celebration. Thank you for understanding.", "Te recomendamos llegar puntual para no perderte ningún momento especial que hemos preparado para ti.": "Please arrive on time so you don't miss any of the special moments we have prepared for you.", "Confirmación": "RSVP", "¿Nos acompañas?": "Will you join us?", "Pases": "Passes", "Menores": "Children", "Por favor confirma antes del 20 de noviembre de 2026": "Please confirm before November 20, 2026", "Asistiré": "I'll attend", "No podré asistir": "I can't attend", "Confirmar asistencia": "Confirm attendance", "Modificar mi respuesta": "Change my answer", "26 · Diciembre · 2026": "26 · December · 2026", "Diseño por @elysium.invitaciones": "Design by @elysium.invitaciones", "Actualizar respuesta": "Update answer", "Confirmaciones cerradas": "RSVP closed", "Enlace copiado": "Link copied", "Gracias por avisarnos": "Thank you for letting us know", "Lamentamos que no puedas acompañarnos. Te vamos a extrañar.": "We're sorry you can't join us. We'll miss you.", "¡Gracias por confirmar!": "Thank you for confirming!", "Nombre completo del invitado": "Guest's full name", "Ver ideas": "See ideas", "Recepción": "Reception", "Ceremonia": "Ceremony"},lang='es',orig=new WeakMap(),ph=new WeakMap();
+  function k(s){return s.replace(/\s+/g,' ').trim();}
+  function tr(n){
+    if(!orig.has(n))orig.set(n,n.nodeValue);
+    var o=orig.get(n),key=k(o);
+    if(lang==='en'&&EN[key]){n.nodeValue=o.replace(key,EN[key]);}
+    else if(lang==='es'&&n.nodeValue!==o&&EN[k(o)]){n.nodeValue=o;}
+  }
+  function walk(root){
+    if(root.nodeType===3){tr(root);return;}
+    if(root.nodeType!==1||/SCRIPT|STYLE/.test(root.tagName))return;
+    var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);while(w.nextNode()){var p=w.currentNode.parentElement;if(p&&!/SCRIPT|STYLE/.test(p.tagName))tr(w.currentNode);}
+    [root].concat([].slice.call(root.querySelectorAll('[placeholder]'))).forEach(function(e){if(!e.getAttribute||!e.hasAttribute('placeholder'))return;if(!ph.has(e))ph.set(e,e.placeholder);var o=ph.get(e);e.placeholder=lang==='en'&&EN[k(o)]?EN[k(o)]:o;});
+  }
+  var busy=false,mo=new MutationObserver(function(ms){if(busy||lang==='es')return;busy=true;ms.forEach(function(m){
+    if(m.type==='characterData'){orig.set(m.target,m.target.nodeValue);tr(m.target);}else m.addedNodes.forEach(walk);});busy=false;});
+  function apply(l){lang=l;document.documentElement.lang=l;busy=true;walk(document.body);busy=false;
+    mo.disconnect();mo.observe(document.body,{childList:true,subtree:true,characterData:true});
+    var s=document.getElementById('langSwitch');if(s)s.textContent=l==='en'?'ES':'EN';}
+  return {apply:apply,get:function(){return lang;},EN:EN};
 })();
 </script>
 <script>
