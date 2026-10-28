@@ -847,7 +847,7 @@ body{font-weight:500;color:var(--text)}
 @media(prefers-reduced-motion:reduce){.hosp-photo,.hm-hotel::after,.hm-route{animation:none!important}}
 
 /* sobre nuevo a pantalla completa */
-#envelope-screen{background:#F4F5F7!important}
+#envelope-screen{background:#D5D6D7!important}
 #envImage{object-fit:cover!important}
 /* hero: la foto cubre aunque suba con el scroll */
 .hero-drift{inset:-14% -4%!important}
@@ -904,6 +904,11 @@ button,input,select,textarea{font-family:'Marcellus',serif}
 
 #autoScroll{position:fixed;left:16px;bottom:18px;z-index:800;width:46px;height:46px;border-radius:50%;border:1px solid rgba(212,175,55,.8);background:rgba(27,47,82,.85);color:#F6E3A1;font-size:14px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .5s}
 #autoScroll.show{opacity:1;pointer-events:auto}
+
+.dc4{display:grid!important;grid-template-columns:repeat(4,1fr);gap:10px!important;max-width:340px;margin:8px auto 0}
+.dc4 .dc-sw{width:auto;display:flex;flex-direction:column;align-items:center;gap:8px}
+.dc4 .dc-sw span{display:block;width:52px!important;height:52px!important;border-radius:50%;box-shadow:0 6px 14px rgba(27,47,82,.18)}
+.dc4 .dc-sw em{font-style:normal;font-family:var(--f-sans);font-size:14px!important;line-height:1.25;color:var(--text);text-align:center}
 </style>
 </head>
 <body>
@@ -1156,9 +1161,11 @@ button,input,select,textarea{font-family:'Marcellus',serif}
     <p class="dc-sub-lbl">Colores sugeridos</p>
     <p class="dc-pend">Por confirmar</p>
     <p class="dc-sub-lbl">Colores a evitar</p>
-    <div class="dc-orb-wrap" aria-label="Azul marino, azul cielo, azul celeste y blanco">
-      <span class="dc-orb dc-orb3"></span>
-      <span class="dc-orb-lbl dc-lbl3"><i>Azul marino</i><i>Azul cielo</i><i>Azul celeste</i><i>Blanco</i></span>
+    <div class="dc-swatches dc4">
+      <div class="dc-sw"><span style="background:#1B2A5C"></span><em>Azul marino</em></div>
+      <div class="dc-sw"><span style="background:#7FB2E5"></span><em>Azul cielo</em></div>
+      <div class="dc-sw"><span style="background:#A9DDF0"></span><em>Azul celeste</em></div>
+      <div class="dc-sw"><span style="background:#FFFFFF;border:1px solid #b9bec6"></span><em>Blanco</em></div>
     </div>
     <p class="dc-note-w">Te pedimos evitar estos tonos. ¡Gracias por tu comprensión!</p>
   </section>
@@ -1205,8 +1212,8 @@ button,input,select,textarea{font-family:'Marcellus',serif}
         <span class="gift-op">Opción 2 · Mesa de regalos</span>
         <img class="lv-logo" src="liverpool-logo.png" alt="Liverpool">
         <span class="lv-lbl">No. de evento</span>
-        <span class="lv-num">60036247</span>
-        <a class="lv-btn" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60036247" target="_blank" rel="noopener">Ver mesa de regalos</a>
+        <span class="lv-num">60068688</span>
+        <a class="lv-btn" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60068688" target="_blank" rel="noopener">Ver mesa de regalos</a>
       </div>
     </div>
   </section>
