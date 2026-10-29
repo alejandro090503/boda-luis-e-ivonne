@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Elysium//Boda Ivonne y Luis//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:boda-luis-e-ivonne-20261226@elysium
+DTSTAMP:20261029T000000Z
+DTSTART:20261226T180000Z
+DTEND:20261227T060000Z
+SUMMARY:Boda Ivonne & Luis
+DESCRIPTION:Ceremonia religiosa 12:00 PM - Templo de la Virgen de Juquila\nCalenda 2:00 PM\nRecepción 3:00 PM - Quinta San Martín\nhttps://boda-luis-e-ivonne.vercel.app
+LOCATION:Templo de la Virgen de Juquila\, San Juan Chapultepec\, Oaxaca
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Mañana es la boda de Ivonne & Luis
+END:VALARM
+END:VEVENT
+END:VCALENDAR
