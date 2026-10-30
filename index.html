@@ -1107,7 +1107,7 @@ button,input,select,textarea{font-family:'Marcellus',serif}
         <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5C3.89 4 3 4.9 3 6v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM7 11h5v5H7z"/></svg>
         Google Calendar
       </a>
-      <a href="boda.ics" class="btn-cal" style="margin-top:12px">
+      <a href="boda.ics" id="calIos" class="btn-cal" style="margin-top:12px">
         <svg viewBox="0 0 24 24"><path d="M16.37 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.78-3.32-1.8-1.41-.14-2.76.83-3.47.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.75 2.27-1.6 2.78-.41 6.9 1.15 9.15.76 1.1 1.67 2.34 2.86 2.3 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.77.74 2.98.72 1.23-.02 2.01-1.12 2.76-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.4-.92-2.39-3.67zM14.1 5.85c.63-.77 1.06-1.83.94-2.89-.91.04-2.01.61-2.66 1.37-.58.67-1.09 1.75-.96 2.79 1.02.08 2.05-.52 2.68-1.27z"/></svg>
         Calendario de iPhone
       </a>
@@ -2214,5 +2214,8 @@ window.ELY_I18N=(function(){
   var iv=setInterval(function(){var s=document.getElementById('envelope-screen');if(s&&s.style.display==='none'){clearInterval(iv);btn.classList.add('show');setTimeout(start,2500);}},300);
 })();
 </script>
+<script>/* iPhone: webcal abre la app Calendario aun dentro de WhatsApp/Instagram */
+(function(){var a=document.getElementById('calIos');if(!a)return;
+if(/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))a.href='webcal://'+location.host+'/boda.ics';})();</script>
 </body>
 </html>
