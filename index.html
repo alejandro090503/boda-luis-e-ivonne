@@ -759,6 +759,22 @@ body{font-weight:500;color:var(--text)}
 .rsvp-editar:disabled{opacity:.45;cursor:not-allowed}
 #rsvp-feedback{margin-top:14px;font-family:var(--f-sans);font-weight:600;font-size:16px;min-height:22px}
 #rsvp-feedback.err{color:#9b2335}#rsvp-feedback.ok{color:#2F5A93}
+/* nombre de la invitación grande con brillo + contador de pases */
+.rsvp-para{margin:14px auto 4px;max-width:400px}
+.rsvp-para-lbl{display:block;font-family:var(--f-sans);font-weight:600;font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:#2F5A93;padding-left:.28em}
+.rsvp-para .rsvp-hi{margin:4px 0 0;overflow-wrap:anywhere;background:linear-gradient(100deg,#1B2F52 0%,#2F5A93 30%,#B08D2E 47%,#f3dfa0 50%,#B08D2E 53%,#2F5A93 70%,#1B2F52 100%);background-size:240% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:liParaSweep 7s ease-in-out infinite}
+@keyframes liParaSweep{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+@media(prefers-reduced-motion:reduce){.rsvp-para .rsvp-hi{animation:none;background-position:50% 0}}
+.rsvp-contador-wrap{margin:18px auto 0}
+.rsvp-contador-nota{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;font-weight:500;line-height:1.5;color:var(--text);margin:0 auto 10px}
+.rsvp-contador{display:flex;align-items:center;justify-content:center;gap:20px;padding:8px 14px;border-radius:999px;background:rgba(74,123,183,.07);border:1px solid rgba(74,123,183,.25)}
+.rsvp-contador-btn{width:46px;height:46px;flex-shrink:0;border-radius:50%;border:1.5px solid #2F5A93;background:#fff;color:#2F5A93;font-family:var(--f-display);font-size:26px;font-weight:600;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.rsvp-contador-btn:disabled{opacity:.35;cursor:default}
+.rsvp-contador-valor{font-family:var(--f-display);font-size:38px;font-weight:600;line-height:1;color:var(--navy);min-width:52px}
+.rsvp-contador-pie{font-family:var(--f-sans);font-weight:600;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#2F5A93;margin:10px auto 0}
+.rsvp-in.falta{border-color:#9b2335;box-shadow:0 0 0 3px rgba(155,35,53,.14)}
+.rsvp-tg:disabled{opacity:.55;cursor:not-allowed}
 
 .on-ink .foil-blue,.on-ink .foil-gold-txt,.on-ink .amp-gold,.on-ink .eyebrow,.on-ink .env-title{text-shadow:none!important;filter:drop-shadow(0 0 5px rgba(255,255,255,.95)) drop-shadow(0 0 2px rgba(255,255,255,.9))}
 /* 10 · SCRIPT/METÁLICO SIN CORTES */
@@ -1288,7 +1304,7 @@ button,input,select,textarea{font-family:'Marcellus',serif}
     <h2 class="heading-sm">Álbum de Fotos</h2>
     <div class="orn" style="margin-top:16px"><div class="orn-line"></div><div class="orn-diamond-sm"></div><div class="orn-diamond"></div><div class="orn-diamond-sm"></div><div class="orn-line"></div></div>
     <p class="album-qr-txt" style="max-width:340px;margin:24px auto 0">Ayúdanos a guardar cada momento: sube aquí las fotos que tomes durante el evento.</p>
-    <!-- Álbum de Elysium: el QR abre /album → panel-invitados.vercel.app/subir/luis-e-ivonne -->
+    <!-- Álbum de Elysium: el QR abre /album → panel-invitados.vercel.app/subir/boda-luis-e-ivonne -->
     <div class="album-qr" data-fecha="2026-12-26" style="margin-top:20px">
       <img class="album-qr-img" src="qr-album.png" alt="Código QR del álbum de fotos" style="width:180px;height:180px;border-radius:12px;box-shadow:0 8px 32px rgba(47,90,147,.14)">
       <a class="album-btn" href="/album">Subir mis fotos</a>
@@ -1327,9 +1343,12 @@ button,input,select,textarea{font-family:'Marcellus',serif}
     <div class="ink-bg oval flipy" aria-hidden="true"><i style="background-image:url(ink/ink-oval.webp)"></i></div>
     <span class="eyebrow">Confirmación</span>
     <h2 class="heading-sm">¿Nos acompañas?</h2>
-    <p class="rsvp-hi" id="rsvp-hi" style="display:none"></p>
+    <div class="rsvp-para" id="rsvp-para" style="display:none">
+      <span class="rsvp-para-lbl">Esta invitación es para</span>
+      <p class="rsvp-hi" id="rsvp-hi"></p>
+    </div>
     <p id="rsvp-pases-note"></p>
-    <div class="rsvp-boxes">
+    <div class="rsvp-boxes" id="rsvp-boxes" style="display:none">
       <div class="rsvp-pases"><span class="lbl">Pases</span><span class="num" id="rsvp-pases-num">1</span></div>
       <div class="rsvp-pases" id="rsvp-men-box" style="display:none"><span class="lbl">Menores</span><span class="num" id="rsvp-men-num">0</span></div>
     </div>
@@ -1338,6 +1357,15 @@ button,input,select,textarea{font-family:'Marcellus',serif}
       <div class="rsvp-toggle2">
         <button class="rsvp-tg" id="rsvpYes" type="button">Asistiré</button>
         <button class="rsvp-tg" id="rsvpNo" type="button">No podré asistir</button>
+      </div>
+      <div class="rsvp-contador-wrap" id="rsvp-contador-wrap" style="display:none">
+        <p class="rsvp-contador-nota" id="rsvp-contador-nota"></p>
+        <div class="rsvp-contador">
+          <button class="rsvp-contador-btn" id="rsvp-menos" type="button" aria-label="Quitar un pase">&minus;</button>
+          <span class="rsvp-contador-valor" id="rsvp-contador-valor" aria-live="polite">1</span>
+          <button class="rsvp-contador-btn" id="rsvp-mas" type="button" aria-label="Agregar un pase">+</button>
+        </div>
+        <p class="rsvp-contador-pie" id="rsvp-contador-pie"></p>
       </div>
       <div class="rsvp-fields2" id="rsvp-fields2" style="display:none"></div>
       <button class="rsvp-go" id="rsvp-go" type="button"><span id="rsvp-go-text">Confirmar asistencia</span></button>
@@ -2062,60 +2090,128 @@ function initWheel2(){
   lbClose.addEventListener('click',close);lb.addEventListener('click',function(e){if(e.target===lb)close();});
 }
 
-/* 9 · RSVP (diseño boda-jennifer-y-marcel) */
+/* 9 · RSVP · Panel de Invitados — X pases con contador (diseño boda-jennifer-y-marcel) */
 function initRsvp2(){
   var API='https://panel-invitados.vercel.app/api/confirmar',URL_BODA='https://boda-luis-e-ivonne.vercel.app';
   var DEADLINE=new Date('2026-11-20T23:59:59-06:00');
-  var qs=new URLSearchParams(location.search),para=(qs.get('para')||'').trim();
-  var pases=Math.max(1,Math.min(20,parseInt(qs.get('pases'),10)||1));
-  var menores=Math.max(0,Math.min(20,parseInt(qs.get('menores'),10)||0));
-  var frozen=new Date()>DEADLINE,estado=null,saved=[];
+  function T(es,en){return window.ELY_I18N&&window.ELY_I18N.get()==='en'?en:es;}
+  /* WhatsApp/Messenger cortan la URL en el primer espacio: el panel manda ?i= (base64url de "nombre|pases|menores"). ?para= queda de respaldo. */
+  function decodeInvite(tok){
+    try{var b64=tok.replace(/-/g,'+').replace(/_/g,'/');while(b64.length%4)b64+='=';
+      var bin=atob(b64),bytes=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+      var p=new TextDecoder().decode(bytes).split('|');return{para:(p[0]||'').trim(),pases:parseInt(p[1],10)||1};}catch(e){return null;}
+  }
+  var qs=new URLSearchParams(location.search),para='',rawP=1,tok=qs.get('i');
+  if(tok){var dec=decodeInvite(tok);if(dec&&dec.para){para=dec.para;rawP=dec.pases;}}
+  if(!para){para=(qs.get('para')||'').trim();rawP=parseInt(qs.get('pases'),10);}
+  var pases=(isNaN(rawP)||rawP<1||rawP>20)?1:rawP,usar=1;
+  var frozen=new Date()>DEADLINE,bloqueado=false,listo=false,enviando=false,estado=null,saved=[],lastFb=null,gState=null;
   var $=function(id){return document.getElementById(id);};
-  var hi=$('rsvp-hi'),note=$('rsvp-pases-note'),num=$('rsvp-pases-num'),menBox=$('rsvp-men-box'),menNum=$('rsvp-men-num'),
+  var paraBox=$('rsvp-para'),hi=$('rsvp-hi'),note=$('rsvp-pases-note'),num=$('rsvp-pases-num'),boxes=$('rsvp-boxes'),
       fields=$('rsvp-fields2'),btn=$('rsvp-go'),btnText=$('rsvp-go-text'),yes=$('rsvpYes'),no=$('rsvpNo'),fb=$('rsvp-feedback'),
-      bandeja=$('rsvp-bandeja'),gracias=$('rsvp-gracias'),gT=$('rsvp-gracias-title'),gS=$('rsvp-gracias-sub'),editar=$('rsvp-editar');
+      bandeja=$('rsvp-bandeja'),gracias=$('rsvp-gracias'),gT=$('rsvp-gracias-title'),gS=$('rsvp-gracias-sub'),editar=$('rsvp-editar'),
+      cWrap=$('rsvp-contador-wrap'),cNota=$('rsvp-contador-nota'),cVal=$('rsvp-contador-valor'),cPie=$('rsvp-contador-pie'),menos=$('rsvp-menos'),mas=$('rsvp-mas');
   if(!btn)return;
-  function paint(){num.textContent=pases;note.textContent=pases===1?'Hemos reservado un lugar para ti.':'Hemos reservado '+pases+' lugares en tu honor.';
-    if(menores>0){menBox.style.display='';menNum.textContent=menores;}else menBox.style.display='none';}
-  if(para){hi.textContent=para;hi.style.display='';}
-  paint();
-  function setFb(t,c){fb.textContent=t;fb.className=c||'';}
-  function build(){fields.innerHTML='';for(var i=0;i<pases;i++){var inp=document.createElement('input');inp.type='text';inp.className='rsvp-in';inp.placeholder='Nombre completo del invitado '+(i+1);inp.autocomplete='name';if(saved[i])inp.value=saved[i];fields.appendChild(inp);}}
+  var btnState='confirm';
+  function cerrado(){return frozen||bloqueado||!listo;}
+  function paintBtn(){btnText.textContent=btnState==='update'?T('Actualizar respuesta','Update my answer'):btnState==='sending'?T('Enviando…','Sending…'):btnState==='closed'?T('Confirmaciones cerradas','RSVP closed'):T('Confirmar asistencia','Confirm attendance');}
+  function setFb(es,en,c){lastFb=es?[es,en,c]:null;fb.textContent=es?T(es,en):'';fb.className=c||'';}
+  function paint(){
+    num.textContent=pases;
+    note.textContent=pases===1?T('Hemos reservado un lugar para ti.','We have reserved one seat for you.'):T('Hemos reservado '+pases+' lugares en tu honor.','We have reserved '+pases+' seats in your honor.');
+    if(para){hi.textContent=para;paraBox.style.display='';boxes.style.display='';}
+  }
+  function build(){
+    fields.innerHTML='';
+    for(var i=0;i<usar;i++){
+      var inp=document.createElement('input');inp.type='text';inp.className='rsvp-in';inp.maxLength=60;inp.autocomplete='off';
+      inp.placeholder=usar===1?T('Tu nombre completo','Your full name'):T('Nombre completo del invitado ','Full name of guest ')+(i+1);
+      inp.value=saved[i]||'';inp.disabled=cerrado();
+      (function(idx){inp.addEventListener('input',function(){saved[idx]=this.value;this.classList.remove('falta');});})(i);
+      fields.appendChild(inp);
+    }
+  }
+  function pintaContador(){
+    var ver=estado==='confirmado'&&pases>1;cWrap.style.display=ver?'':'none';if(!ver)return;
+    cVal.textContent=usar;
+    cNota.textContent=T('Tienes '+pases+' pases reservados. Aumenta el número de pases que vayas a ocupar.','You have '+pases+' passes reserved. Increase the number of passes you will use.');
+    cPie.textContent=usar>=pases?T('Usarás todos tus pases','Using all your passes'):T(usar+' de '+pases+' pases',usar+' of '+pases+' passes');
+    menos.disabled=cerrado()||usar<=1;mas.disabled=cerrado()||usar>=pases;
+  }
+  function setUsar(n){if(cerrado())return;var v=Math.max(1,Math.min(pases,n));if(v===usar)return;usar=v;pintaContador();build();setFb('');}
+  menos.addEventListener('click',function(){setUsar(usar-1);});
+  mas.addEventListener('click',function(){setUsar(usar+1);});
   function sel(v){estado=v;yes.classList.toggle('on',v==='confirmado');no.classList.toggle('on',v==='declino');
-    if(v==='confirmado'){build();fields.style.display='';}else{fields.innerHTML='';fields.style.display='none';}}
-  yes.addEventListener('click',function(){if(!frozen)sel('confirmado');});
-  no.addEventListener('click',function(){if(!frozen)sel('declino');});
+    if(v==='confirmado'){build();fields.style.display='';}else{fields.innerHTML='';fields.style.display='none';}
+    pintaContador();}
+  yes.addEventListener('click',function(){if(!cerrado()){sel('confirmado');setFb('');}});
+  no.addEventListener('click',function(){if(!cerrado()){sel('declino');setFb('');}});
   function thanks(est,nombres){
-    if(est==='confirmado'){gT.textContent='¡Gracias por confirmar!';gS.textContent=nombres.length===1?'Te esperamos, '+nombres[0]+'.':'Confirmamos '+nombres.length+' lugares: '+nombres.join(', ')+'.';}
-    else{gT.textContent='Gracias por avisarnos';gS.textContent='Lamentamos que no puedas acompañarnos. Te vamos a extrañar.';}
-    bandeja.style.display='none';gracias.style.display='';
+    gState=[est,nombres];
+    if(est==='confirmado'){gT.textContent=T('¡Gracias por confirmar!','Thank you for confirming!');
+      gS.textContent=nombres.length===1?T('Te esperamos, '+nombres[0]+'.','We look forward to seeing you, '+nombres[0]+'.'):T('Confirmamos '+nombres.length+' lugares: ','We confirmed '+nombres.length+' seats: ')+nombres.join(', ')+'.';}
+    else{gT.textContent=T('Gracias por avisarnos','Thank you for letting us know');gS.textContent=T('Lamentamos que no puedas acompañarnos. Te vamos a extrañar.','We are sorry you cannot join us. We will miss you.');}
+    bandeja.style.display='none';gracias.style.display='';editar.disabled=frozen||bloqueado;
   }
-  editar.addEventListener('click',function(){if(frozen)return;gracias.style.display='none';bandeja.style.display='';setFb('','');});
-  if(frozen){yes.disabled=no.disabled=btn.disabled=editar.disabled=true;btnText.textContent='Confirmaciones cerradas';setFb('La fecha límite para confirmar ya pasó.','err');}
-  if(para){
-    fetch(API+'?nombre='+encodeURIComponent(para)+'&url_boda='+encodeURIComponent(URL_BODA)).then(function(r){return r.json();}).then(function(d){
-      var inv=d&&d.invitado;if(!inv)return;
-      if(inv.pases){pases=Math.max(1,parseInt(inv.pases,10)||pases);}
-      if(inv.menores!=null){menores=Math.max(0,parseInt(inv.menores,10)||0);}
-      paint();
-      if(inv.estado==='confirmado'||inv.estado==='declino'){saved=inv.nombres_confirmados||[];sel(inv.estado);btnText.textContent='Actualizar respuesta';thanks(inv.estado,saved);}
-    }).catch(function(){});
-  }
+  editar.addEventListener('click',function(){if(frozen||bloqueado)return;gState=null;gracias.style.display='none';bandeja.style.display='';setFb('');});
+  function bloquear(es,en){yes.disabled=no.disabled=btn.disabled=editar.disabled=true;menos.disabled=mas.disabled=true;
+    fields.querySelectorAll('input').forEach(function(i){i.disabled=true;});btnState='closed';paintBtn();setFb(es,en,'err');}
+  /* al cambiar de idioma se vuelven a pintar los textos que arma el JS */
+  var sw=$('langSwitch');if(sw)sw.addEventListener('click',function(){setTimeout(function(){paintBtn();paint();pintaContador();
+    if(estado==='confirmado'){var keep=saved.slice();build();saved=keep;}if(lastFb)setFb(lastFb[0],lastFb[1],lastFb[2]);if(gState)thanks(gState[0],gState[1]);},0);});
+  paint();paintBtn();
+  yes.disabled=no.disabled=btn.disabled=true;
+  if(frozen){bloquear('La fecha límite para confirmar ya pasó.','The RSVP deadline has passed.');}
+  if(!para){setFb('Abre el enlace personalizado que te enviaron para confirmar tu asistencia.','Please open the personal link you received to RSVP.','err');return;}
+  fetch(API+'?nombre='+encodeURIComponent(para)+'&url_boda='+encodeURIComponent(URL_BODA)).then(function(r){return r.json();}).then(function(d){
+    var inv=d&&d.invitado;
+    /* si el panel no la conoce no se deja confirmar: crearía una invitación nueva */
+    if(!inv){setFb('No encontramos tu invitación. Pide a los novios que te envíen tu enlace de nuevo.','We could not find your invitation. Please ask the couple to send you your link again.','err');return;}
+    if(inv.pases>0&&inv.pases<=20)pases=parseInt(inv.pases,10);
+    paint();
+    if(inv.estado==='confirmado'||inv.estado==='declino'){
+      saved=(inv.nombres_confirmados||[]).slice();usar=Math.min(pases,Math.max(1,saved.length));
+      sel(inv.estado);btnState='update';thanks(inv.estado,saved);
+    }
+    if(inv.bloqueado)bloqueado=true;
+    listo=true;
+    if(frozen){bloquear('La fecha límite para confirmar ya pasó.','The RSVP deadline has passed.');return;}
+    if(bloqueado){bloquear('Las confirmaciones de esta invitación ya están cerradas. Si necesitas un cambio, contacta a los novios.','RSVPs for this invitation are closed. If you need a change, please contact the couple.');return;}
+    yes.disabled=no.disabled=btn.disabled=false;paintBtn();pintaContador();if(estado==='confirmado')build();
+  }).catch(function(){setFb('No pudimos cargar tu invitación. Recarga la página.','We could not load your invitation. Please reload the page.','err');});
   btn.addEventListener('click',function(){
-    if(frozen)return;
-    if(!para){setFb('Abre tu enlace personal de invitación para confirmar.','err');return;}
-    if(!estado){setFb('Elige si asistirás o no.','err');return;}
+    if(cerrado()||enviando)return;
+    if(!estado){setFb('Elige si asistirás o no.','Please choose whether you will attend.','err');return;}
     var nombres=[];
-    if(estado==='confirmado'){fields.querySelectorAll('input').forEach(function(i){var v=i.value.trim();if(v)nombres.push(v);});if(!nombres.length){setFb('Escribe al menos un nombre.','err');return;}}
-    btn.disabled=true;setFb('Enviando…','');
-    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:para,url_boda:URL_BODA,estado:estado,pases_confirmados:estado==='confirmado'?nombres.length:0,nombres_confirmados:nombres})})
-      .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+    if(estado==='confirmado'){
+      var ins=fields.querySelectorAll('input');
+      ins.forEach(function(i){var v=i.value.trim();if(v)nombres.push(v);});
+      if(!nombres.length){setFb('Escribe al menos un nombre.','Please write at least one name.','err');if(ins[0])ins[0].focus();return;}
+      var doble=null;
+      ins.forEach(function(i){var malo=/[&\/+,]|\s(y|and)\s/i.test(i.value.trim());i.classList.toggle('falta',malo);if(malo&&!doble)doble=i;});
+      if(doble){setFb('Escribe un solo nombre en cada campo. Si vienen más personas, sube el contador y escribe cada nombre en su propio campo.','Write one name per field. If more people are coming, increase the counter and write each name in its own field.','err');doble.focus();return;}
+      if(nombres.length<usar){
+        var faltan=usar-nombres.length,primero=null;
+        ins.forEach(function(i){if(!i.value.trim()){i.classList.add('falta');if(!primero)primero=i;}});
+        setFb('Elegiste '+usar+' pases pero escribiste '+nombres.length+' nombre'+(nombres.length===1?'':'s')+'. Escribe '+(faltan===1?'el nombre que falta':'los '+faltan+' nombres que faltan')+' o baja el contador a los pases que vas a utilizar.',
+          'You chose '+usar+' passes but wrote '+nombres.length+' name'+(nombres.length===1?'':'s')+'. Write the missing name'+(faltan===1?'':'s')+' or lower the counter.','err');
+        if(primero)primero.focus();return;
+      }
+    }
+    enviando=true;btn.disabled=true;btnState='sending';paintBtn();setFb('');
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:para,url_boda:URL_BODA,estado:estado,pases_confirmados:estado==='confirmado'?nombres.length:0,nombres_confirmados:estado==='confirmado'?nombres:[]})})
+      .then(function(r){return r.json().catch(function(){return null;}).then(function(d){return {ok:r.ok,d:d};});})
       .then(function(res){
-        btn.disabled=false;
-        if(!res.ok||(res.d&&res.d.ok===false)){setFb('No pudimos registrar tu respuesta. Intenta de nuevo.','err');return;}
-        saved=nombres;btnText.textContent='Actualizar respuesta';setFb('','');thanks(estado,nombres);
-        if(estado==='confirmado'&&window.elyConfetti)window.elyConfetti(gracias);
-      }).catch(function(){btn.disabled=false;setFb('Sin conexión. Intenta de nuevo.','err');});
+        enviando=false;
+        if(res.ok&&res.d&&res.d.ok){btn.disabled=false;saved=nombres;btnState='update';paintBtn();thanks(estado,nombres);
+          if(estado==='confirmado'&&window.elyConfetti)window.elyConfetti(gracias);return;}
+        var err=res.d&&res.d.error;
+        if(err==='respuestas_cerradas'){bloqueado=true;bloquear('Las confirmaciones de esta invitación ya están cerradas. Si necesitas un cambio, contacta a los novios.','RSVPs for this invitation are closed. If you need a change, please contact the couple.');return;}
+        btn.disabled=false;btnState='confirm';paintBtn();
+        if(err==='no_match')setFb('No pudimos identificar tu invitación. Abre el enlace personalizado que te enviaron.','We could not identify your invitation. Please open the personal link you received.','err');
+        else if(err==='invitacion_borrada')setFb('Esta invitación ya no está activa. Contacta a los novios para que te envíen un enlace nuevo.','This invitation is no longer active. Please contact the couple for a new link.','err');
+        else setFb('No pudimos registrar tu respuesta. Intenta de nuevo.','We could not save your answer. Please try again.','err');
+      }).catch(function(){enviando=false;btn.disabled=false;btnState='confirm';paintBtn();setFb('Sin conexión. Intenta de nuevo.','No connection. Please try again.','err');});
   });
 }
 
@@ -2176,7 +2272,7 @@ window.addEventListener('load',initSectionFades);
 <script>
 /* ── IDIOMA ES/EN (texto en español en el HTML, inglés en diccionario) ── */
 window.ELY_I18N=(function(){
-  var EN={"Toca para abrir": "Tap to open", "Inicio": "Home", "Familias": "Families", "Ubicación": "Location", "Itinerario": "Schedule", "Vestimenta": "Dress code", "Regalos": "Gifts", "Galería": "Gallery", "Confirmar": "RSVP", "☰ Menú": "☰ Menu", "26 · Diciembre · 2026 · Oaxaca de Juárez": "26 · December · 2026 · Oaxaca de Juárez", "¡Copiado!": "Copied!", "Nos casamos": "We're getting married", "Con la bendición de Dios": "With God's blessing", "Tienen el honor de invitarte a": "Request the honor of your presence at", "su boda religiosa": "their religious wedding", "Sábado, 26 de diciembre de 2026": "Saturday, December 26, 2026", "El amor es paciente, es bondadoso;": "Love is patient, love is kind;", "todo lo cree, todo lo espera, todo lo soporta.": "it always trusts, always hopes, always perseveres.", "1 Corintios 13, 4-7": "1 Corinthians 13:4-7", "Faltan": "Only", "Cuenta Regresiva": "Countdown", "Días": "Days", "Horas": "Hours", "Min": "Min", "Seg": "Sec", "Con la bendición de": "With the blessing of", "Nuestras Familias": "Our Families", "Padres de la Novia": "Parents of the Bride", "En amorosa memoria": "In loving memory", "Que nos acompañan desde el cielo": "Who are with us from heaven", "Padres del Novio": "Parents of the Groom", "Padrinos de Velación": "Sponsors", "Dónde Celebramos": "Where We Celebrate", "Ceremonia Religiosa": "Religious Ceremony", "Templo de la Virgen de Juquila": "Virgin of Juquila Church", "Cómo llegar": "Directions", "Recepción y Comida": "Reception & Lunch", "Calendario de iPhone": "iPhone Calendar", "Guardar en Calendario": "Save to Calendar", "Programa del Día": "Order of the Day", "Templo de la Virgen de Juquila, San Juan Chapultepec": "Virgin of Juquila Church, San Juan Chapultepec", "Calenda": "Calenda (traditional parade)", "Recepción y Cóctel de Bienvenida": "Reception & Welcome Cocktail", "Comida": "Lunch", "De 3:30 a 5:00 p.m.": "From 3:30 to 5:00 p.m.", "Código de Vestimenta": "Dress Code", "Formal": "Formal", "Acompáñanos vestido para la ocasión con tu mejor atuendo formal.": "Please join us in your finest formal attire.", "Caballeros": "Gentlemen", "Damas": "Ladies", "Colores sugeridos": "Suggested colors", "A tu elección": "Your choice", "Por confirmar": "To be confirmed", "Colores a evitar": "Colors to avoid", "Azul marino": "Navy blue", "Azul cielo": "Sky blue", "Azul celeste": "Light blue", "Blanco": "White", "Te pedimos evitar estos tonos. ¡Gracias por tu comprensión!": "Kindly avoid these colors. Thank you for understanding!", "Con cariño": "With love", "Mesa de Regalos": "Gift Registry", "Tendremos dos opciones": "There are two options", "Opción 1 · Lluvia de sobres": "Option 1 · Envelope shower", "Tu presencia es nuestro regalo": "Your presence is our gift", "Si deseas tener un detalle con nosotros, el día del evento habrá un buzón para recibir tu sobre con todo nuestro cariño.": "If you wish to give us a gift, there will be a box at the event to receive your envelope with all our love.", "Opción 2 · Mesa de regalos": "Option 2 · Gift registry", "No. de evento": "Event no.", "Ver mesa de regalos": "View gift registry", "Nuestros Momentos": "Our Moments", "Arrastra para girar · toca para ampliar": "Drag to spin · tap to enlarge", "Comparte tus Recuerdos": "Share your Memories", "Álbum de Fotos": "Photo Album", "Ayúdanos a guardar cada momento: sube aquí las fotos que tomes durante el evento.": "Help us keep every moment: upload the photos you take during the event here.", "Subir mis fotos": "Upload my photos", "El álbum de fotos se habilita el día del evento. Regresa aquí y sube todas tus fotos.": "The photo album opens on the day of the event. Come back here and upload all your photos.", "Información Importante": "Important Information", "Notas Cariñosas": "Kind Notes", "Con mucho cariño, hemos planeado esta celebración solo para adultos. Gracias por su comprensión.": "With much love, we have planned an adults-only celebration. Thank you for understanding.", "Te recomendamos llegar puntual para no perderte ningún momento especial que hemos preparado para ti.": "Please arrive on time so you don't miss any of the special moments we have prepared for you.", "Confirmación": "RSVP", "¿Nos acompañas?": "Will you join us?", "Pases": "Passes", "Menores": "Children", "Por favor confirma antes del 20 de noviembre de 2026": "Please confirm before November 20, 2026", "Asistiré": "I'll attend", "No podré asistir": "I can't attend", "Confirmar asistencia": "Confirm attendance", "Modificar mi respuesta": "Change my answer", "26 · Diciembre · 2026": "26 · December · 2026", "Diseño por @elysium.invitaciones": "Design by @elysium.invitaciones", "Actualizar respuesta": "Update answer", "Confirmaciones cerradas": "RSVP closed", "Enlace copiado": "Link copied", "Gracias por avisarnos": "Thank you for letting us know", "Lamentamos que no puedas acompañarnos. Te vamos a extrañar.": "We're sorry you can't join us. We'll miss you.", "¡Gracias por confirmar!": "Thank you for confirming!", "Nombre completo del invitado": "Guest's full name", "Ver ideas": "See ideas", "Recepción": "Reception", "Ceremonia": "Ceremony"},lang='es',orig=new WeakMap(),ph=new WeakMap();
+  var EN={"Toca para abrir": "Tap to open", "Inicio": "Home", "Familias": "Families", "Ubicación": "Location", "Itinerario": "Schedule", "Vestimenta": "Dress code", "Regalos": "Gifts", "Galería": "Gallery", "Confirmar": "RSVP", "☰ Menú": "☰ Menu", "26 · Diciembre · 2026 · Oaxaca de Juárez": "26 · December · 2026 · Oaxaca de Juárez", "¡Copiado!": "Copied!", "Nos casamos": "We're getting married", "Con la bendición de Dios": "With God's blessing", "Tienen el honor de invitarte a": "Request the honor of your presence at", "su boda religiosa": "their religious wedding", "Sábado, 26 de diciembre de 2026": "Saturday, December 26, 2026", "El amor es paciente, es bondadoso;": "Love is patient, love is kind;", "todo lo cree, todo lo espera, todo lo soporta.": "it always trusts, always hopes, always perseveres.", "1 Corintios 13, 4-7": "1 Corinthians 13:4-7", "Faltan": "Only", "Cuenta Regresiva": "Countdown", "Días": "Days", "Horas": "Hours", "Min": "Min", "Seg": "Sec", "Con la bendición de": "With the blessing of", "Nuestras Familias": "Our Families", "Padres de la Novia": "Parents of the Bride", "En amorosa memoria": "In loving memory", "Que nos acompañan desde el cielo": "Who are with us from heaven", "Padres del Novio": "Parents of the Groom", "Padrinos de Velación": "Sponsors", "Dónde Celebramos": "Where We Celebrate", "Ceremonia Religiosa": "Religious Ceremony", "Templo de la Virgen de Juquila": "Virgin of Juquila Church", "Cómo llegar": "Directions", "Recepción y Comida": "Reception & Lunch", "Calendario de iPhone": "iPhone Calendar", "Guardar en Calendario": "Save to Calendar", "Programa del Día": "Order of the Day", "Templo de la Virgen de Juquila, San Juan Chapultepec": "Virgin of Juquila Church, San Juan Chapultepec", "Calenda": "Calenda (traditional parade)", "Recepción y Cóctel de Bienvenida": "Reception & Welcome Cocktail", "Comida": "Lunch", "De 3:30 a 5:00 p.m.": "From 3:30 to 5:00 p.m.", "Código de Vestimenta": "Dress Code", "Formal": "Formal", "Acompáñanos vestido para la ocasión con tu mejor atuendo formal.": "Please join us in your finest formal attire.", "Caballeros": "Gentlemen", "Damas": "Ladies", "Colores sugeridos": "Suggested colors", "A tu elección": "Your choice", "Por confirmar": "To be confirmed", "Colores a evitar": "Colors to avoid", "Azul marino": "Navy blue", "Azul cielo": "Sky blue", "Azul celeste": "Light blue", "Blanco": "White", "Te pedimos evitar estos tonos. ¡Gracias por tu comprensión!": "Kindly avoid these colors. Thank you for understanding!", "Con cariño": "With love", "Mesa de Regalos": "Gift Registry", "Tendremos dos opciones": "There are two options", "Opción 1 · Lluvia de sobres": "Option 1 · Envelope shower", "Tu presencia es nuestro regalo": "Your presence is our gift", "Si deseas tener un detalle con nosotros, el día del evento habrá un buzón para recibir tu sobre con todo nuestro cariño.": "If you wish to give us a gift, there will be a box at the event to receive your envelope with all our love.", "Opción 2 · Mesa de regalos": "Option 2 · Gift registry", "No. de evento": "Event no.", "Ver mesa de regalos": "View gift registry", "Nuestros Momentos": "Our Moments", "Arrastra para girar · toca para ampliar": "Drag to spin · tap to enlarge", "Comparte tus Recuerdos": "Share your Memories", "Álbum de Fotos": "Photo Album", "Ayúdanos a guardar cada momento: sube aquí las fotos que tomes durante el evento.": "Help us keep every moment: upload the photos you take during the event here.", "Subir mis fotos": "Upload my photos", "El álbum de fotos se habilita el día del evento. Regresa aquí y sube todas tus fotos.": "The photo album opens on the day of the event. Come back here and upload all your photos.", "Información Importante": "Important Information", "Notas Cariñosas": "Kind Notes", "Con mucho cariño, hemos planeado esta celebración solo para adultos. Gracias por su comprensión.": "With much love, we have planned an adults-only celebration. Thank you for understanding.", "Te recomendamos llegar puntual para no perderte ningún momento especial que hemos preparado para ti.": "Please arrive on time so you don't miss any of the special moments we have prepared for you.", "Confirmación": "RSVP", "¿Nos acompañas?": "Will you join us?", "Pases": "Passes", "Esta invitación es para": "This invitation is for", "Menores": "Children", "Por favor confirma antes del 20 de noviembre de 2026": "Please confirm before November 20, 2026", "Asistiré": "I'll attend", "No podré asistir": "I can't attend", "Confirmar asistencia": "Confirm attendance", "Modificar mi respuesta": "Change my answer", "26 · Diciembre · 2026": "26 · December · 2026", "Diseño por @elysium.invitaciones": "Design by @elysium.invitaciones", "Actualizar respuesta": "Update answer", "Confirmaciones cerradas": "RSVP closed", "Enlace copiado": "Link copied", "Gracias por avisarnos": "Thank you for letting us know", "Lamentamos que no puedas acompañarnos. Te vamos a extrañar.": "We're sorry you can't join us. We'll miss you.", "¡Gracias por confirmar!": "Thank you for confirming!", "Nombre completo del invitado": "Guest's full name", "Ver ideas": "See ideas", "Recepción": "Reception", "Ceremonia": "Ceremony"},lang='es',orig=new WeakMap(),ph=new WeakMap();
   function k(s){return s.replace(/\s+/g,' ').trim();}
   function tr(n){
     if(!orig.has(n))orig.set(n,n.nodeValue);
